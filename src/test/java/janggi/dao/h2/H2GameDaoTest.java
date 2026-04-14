@@ -26,7 +26,7 @@ class H2GameDaoTest {
     @BeforeEach
     void setUp() {
         dataSource = new TestH2DataSource();
-        gameDao = new H2GameDao(dataSource);
+        gameDao = new H2GameDao();
         game = new GameEntity(
                 null,
                 "테스트 게임",
