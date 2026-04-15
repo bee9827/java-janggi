@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.BoardInfo;
+import janggi.domain.coordination.BoardCoordination;
 import janggi.domain.coordination.PalaceCoordination;
 import janggi.domain.coordination.PalaceMovements;
 import janggi.domain.piece.path.CandidatePath;
@@ -29,11 +30,13 @@ public abstract class PalaceApplicablePiece extends Piece {
     }
 
     @Override
-    protected List<CandidatePath> createCandidatePaths(Point from, BoardInfo boardInfo) {
-        List<CandidatePath> candidatePaths = new ArrayList<>(super.createCandidatePaths(from, boardInfo));
+    protected final List<CandidatePath> createCandidatePaths(Point from) {
+        List<CandidatePath> candidatePaths = new ArrayList<>(
+                createCandidatePaths(getMovements(), from, BoardCoordination::isInRange));
 
         if (PalaceCoordination.isInRange(from)) {
-            candidatePaths.addAll(createPalacePath(from));
+            candidatePaths.addAll(
+                    createCandidatePaths(PalaceMovements.getMovements(from), from, PalaceCoordination::isInRange));
         }
 
         return candidatePaths;
@@ -49,10 +52,4 @@ public abstract class PalaceApplicablePiece extends Piece {
         return MOVEMENTS;
     }
 
-    private List<CandidatePath> createPalacePath(Point from) {
-        return PalaceMovements.getMovements(from).stream()
-                .map(movement -> new CandidatePath(from,
-                        pathStrategy.calculate(movement, from, PalaceCoordination::isInRange)))
-                .toList();
-    }
 }

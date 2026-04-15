@@ -8,6 +8,7 @@ import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 public abstract class Piece {
     protected final PieceType pieceType;
@@ -47,7 +48,7 @@ public abstract class Piece {
     }
 
     public final List<Point> availablePoints(Point from, BoardInfo boardInfo) {
-        List<CandidatePath> candidatePaths = createCandidatePaths(from, boardInfo);
+        List<CandidatePath> candidatePaths = createCandidatePaths(from);
 
         return candidatePaths.stream()
                 .filter(path -> isValidPath(path, boardInfo))
@@ -57,10 +58,12 @@ public abstract class Piece {
                 .toList();
     }
 
-    protected List<CandidatePath> createCandidatePaths(Point from, BoardInfo boardInfo) {
-        List<Movement> movements = getMovements();
+    protected abstract List<CandidatePath> createCandidatePaths(Point from);
+
+    protected final List<CandidatePath> createCandidatePaths(
+            List<Movement> movements, Point from, Predicate<Point> isInRange) {
         return movements.stream()
-                .map(movement -> new CandidatePath(from, pathStrategy.calculate(movement, from, boardInfo::isInRange)))
+                .map(movement -> new CandidatePath(from, pathStrategy.calculate(movement, from, isInRange)))
                 .toList();
     }
 
