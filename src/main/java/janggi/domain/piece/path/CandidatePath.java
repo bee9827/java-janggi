@@ -1,12 +1,10 @@
 package janggi.domain.piece.path;
 
 import janggi.domain.board.BoardInfo;
-import janggi.domain.piece.path.generator.PathStrategy;
 import janggi.domain.point.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Predicate;
 
 public class CandidatePath {
     private final Point base;
@@ -20,10 +18,6 @@ public class CandidatePath {
     public CandidatePath(List<Point> path) {
         this.base = null;
         this.path = path;
-    }
-
-    public CandidatePath(Movement movement, Point base, PathStrategy pathStrategy, Predicate<Point> predicate) {
-        this(base, pathStrategy.calculate(movement, base, predicate));
     }
 
     public Point getPointEncounterPiece(BoardInfo boardInfo, int encounters) {

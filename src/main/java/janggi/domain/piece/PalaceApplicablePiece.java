@@ -12,11 +12,11 @@ import janggi.domain.side.Side;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PalacePiece extends Piece {
+public abstract class PalaceApplicablePiece extends Piece {
     private static final List<Movement> MOVEMENTS = createMovements();
 
-    protected PalacePiece(PieceType name, Side side,
-                          PathStrategy pathStrategy, Score score) {
+    protected PalaceApplicablePiece(PieceType name, Side side,
+                                    PathStrategy pathStrategy, Score score) {
         super(name, side, pathStrategy, score);
     }
 
