@@ -24,6 +24,18 @@ class GameTest {
         );
     }
 
+    @Test
+    @DisplayName("이동할 수 없는 위치라면 예외를 던진다.")
+    void throwExceptionWhenNotDestination() {
+        // given
+        Point from = new Point(3, 0);
+        Point invalidTo = new Point(5, 5);
+
+        // when & then
+        assertThatThrownBy(() -> game.validateMove(from, invalidTo))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
     @Nested
     class Move {
         @Test
@@ -47,18 +59,6 @@ class GameTest {
 
             // then
             assertThat(game.getTurn()).isEqualTo(Side.HAN);
-        }
-
-        @Test
-        @DisplayName("이동할 수 없는 위치라면 예외를 던진다.")
-        void throwExceptionWhenNotDestination() {
-            // given
-            Point from = new Point(3, 0);
-            Point invalidTo = new Point(5, 5);
-
-            // when & then
-            assertThatThrownBy(() -> game.move(from, invalidTo))
-                    .isInstanceOf(IllegalArgumentException.class);
         }
     }
 
